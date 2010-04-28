@@ -1,4 +1,4 @@
-package org.ogrm.persistentType;
+package org.ogrm.test;
 
 import java.util.Collection;
 

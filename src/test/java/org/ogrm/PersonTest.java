@@ -2,13 +2,13 @@ package org.ogrm;
 
 import java.util.Collection;
 
-import org.ogrm.persistentType.Friendship;
-import org.ogrm.persistentType.Instant;
-import org.ogrm.persistentType.LifeEvent;
-import org.ogrm.persistentType.LifeEventImpl;
-import org.ogrm.persistentType.Person;
-import org.ogrm.persistentType.PersonImpl;
+import org.ogrm.test.Friendship;
+import org.ogrm.test.Instant;
+import org.ogrm.test.LifeEvent;
+import org.ogrm.test.LifeEventImpl;
 import org.ogrm.test.OgrmTestSupport;
+import org.ogrm.test.Person;
+import org.ogrm.test.PersonImpl;
 import org.testng.annotations.Test;
 
 

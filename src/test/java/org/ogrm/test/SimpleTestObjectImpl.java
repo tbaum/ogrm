@@ -1,4 +1,4 @@
-package org.ogrm.persistentType;
+package org.ogrm.test;
 
 import org.ogrm.annotations.Id;
 import org.ogrm.annotations.Load;

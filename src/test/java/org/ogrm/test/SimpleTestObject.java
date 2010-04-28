@@ -1,4 +1,4 @@
-package org.ogrm.persistentType;
+package org.ogrm.test;
 
 public interface SimpleTestObject {
 	public void setName( String name );

@@ -1,7 +1,7 @@
 package org.ogrm;
 
-import org.ogrm.persistentType.ObjectWithRelations;
-import org.ogrm.persistentType.ObjectWithRelationsImpl;
+import org.ogrm.test.ObjectWithRelations;
+import org.ogrm.test.ObjectWithRelationsImpl;
 import org.ogrm.test.OgrmTestSupport;
 import org.testng.annotations.Test;
 

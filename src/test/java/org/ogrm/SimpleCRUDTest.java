@@ -1,9 +1,9 @@
 package org.ogrm;
 
 
-import org.ogrm.persistentType.SimpleTestObject;
-import org.ogrm.persistentType.SimpleTestObjectImpl;
 import org.ogrm.test.OgrmTestSupport;
+import org.ogrm.test.SimpleTestObject;
+import org.ogrm.test.SimpleTestObjectImpl;
 import org.testng.annotations.Test;
 
 public class SimpleCRUDTest extends OgrmTestSupport {
