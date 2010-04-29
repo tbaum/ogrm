@@ -7,6 +7,20 @@
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler.version}</version>
+				<configuration>
+					<source>${source.version}</source>
+					<target>${source.version}</target>
+					<compilerVersion>${source.version}
+					</compilerVersion>
+					<encoding>${compiler.encoding}</encoding>
+					<verbose>true</verbose>
+					<fork>false</fork>
+					<showDeprecation>false</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
@@ -87,4 +101,9 @@
 		</dependency>
 
 	</dependencies>
+	<properties>
+		<source.version>6</source.version>
+		<compiler.encoding>UTF-8</compiler.encoding>
+		<compiler.version>2.0.2</compiler.version>
+	</properties>
 </project>
