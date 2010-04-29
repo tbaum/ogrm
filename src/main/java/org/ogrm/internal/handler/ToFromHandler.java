@@ -9,9 +9,9 @@ import org.ogrm.annotations.From;
 import org.ogrm.annotations.To;
 import org.ogrm.internal.context.PersistenceContext;
 import org.ogrm.internal.proxy.FieldProperty;
-import org.ogrm.util.MemberHandler;
+import org.ogrm.util.scan.AbstractHandler;
 
-public class ToFromHandler implements MemberHandler {
+public class ToFromHandler extends AbstractHandler{
 
 	private Map<String, Synchronizer<Relationship>> synchronizers;
 

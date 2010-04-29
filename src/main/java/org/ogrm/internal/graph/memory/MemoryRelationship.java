@@ -1,10 +1,10 @@
 package org.ogrm.internal.graph.memory;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 public class MemoryRelationship extends PropertyHolderSupport implements Relationship, Comparable<MemoryRelationship> {
 
@@ -15,6 +15,7 @@ public class MemoryRelationship extends PropertyHolderSupport implements Relatio
 	private MemoryNode to;
 
 	public MemoryRelationship(Long id, MemoryGraph graph, MemoryNode from, MemoryNode to, RelationshipType type) {
+		super(graph);
 		this.graph = graph;
 		this.id = id;
 		this.from = from;

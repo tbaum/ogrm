@@ -1,15 +1,20 @@
 package org.ogrm.internal.graph.memory;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 import java.util.TreeMap;
 
-
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
-import org.ogrm.internal.graph.Graph;
+import org.neo4j.graphdb.event.KernelEventHandler;
+import org.neo4j.graphdb.event.TransactionEventHandler;
 
-public class MemoryGraph implements Graph {
+public class MemoryGraph implements GraphDatabaseService {
 
 	private TreeMap<Long, MemoryNode> nodes;
 	private TreeMap<Long, MemoryRelationship> relationships;
@@ -31,13 +36,12 @@ public class MemoryGraph implements Graph {
 	}
 
 	@Override
-	public Transaction getAndBeginTx() {
+	public Transaction beginTx() {
 		return new MemoryTransaction();
 	}
 
-	@Override
-	public Node getNodeById( Object id ) {
-		return nodes.get( (Long) id );
+	public Node getNodeById( long id ) {
+		return nodes.get( id );
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class MemoryGraph implements Graph {
 	}
 
 	@Override
-	public Relationship getRelationshipById( Object id ) {
+	public Relationship getRelationshipById( long id ) {
 		return relationships.get( (Long) id );
 	}
 
@@ -82,7 +86,55 @@ public class MemoryGraph implements Graph {
 	}
 
 	@Override
-	public void dispose() {
+	public Iterable<Node> getAllNodes() {
+		return new ArrayList<Node>(nodes.values());
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Iterable<RelationshipType> getRelationshipTypes() {
+		return Collections.EMPTY_LIST;
+	}
+	
+	@Override
+	public void shutdown() {
 		
+	}
+
+	@Override
+	public boolean enableRemoteShell() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean enableRemoteShell( Map<String, Serializable> arg0 ) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public KernelEventHandler registerKernelEventHandler( KernelEventHandler arg0 ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> TransactionEventHandler<T> registerTransactionEventHandler( TransactionEventHandler<T> arg0 ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public KernelEventHandler unregisterKernelEventHandler( KernelEventHandler arg0 ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> TransactionEventHandler<T> unregisterTransactionEventHandler( TransactionEventHandler<T> arg0 ) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

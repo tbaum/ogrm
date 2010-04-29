@@ -3,12 +3,12 @@ package org.ogrm.internal.wrap;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.neo4j.graphdb.PropertyContainer;
 import org.ogrm.internal.handler.Synchronizer;
-
-
-import com.bsc.commons.collections.Maps;
+import org.ogrm.util.Maps;
+import org.ogrm.util.Sets;
 
 public abstract class ReflectionTypeWrapper<T extends PropertyContainer> implements TypeWrapper<T> {
 
@@ -17,7 +17,7 @@ public abstract class ReflectionTypeWrapper<T extends PropertyContainer> impleme
 	private Map<String, Synchronizer<T>> synchronizers;
 	private Map<String, Collection<String>> methodToLoadPropertyMap;
 	private Map<String, Collection<String>> methodToStorePropertyMap;
-
+	private Set<String> methodToIndexMap;
 	private boolean init;
 
 	public ReflectionTypeWrapper(Class<?> c) {
@@ -26,6 +26,7 @@ public abstract class ReflectionTypeWrapper<T extends PropertyContainer> impleme
 		this.synchronizers = Maps.newMap();
 		this.methodToLoadPropertyMap = Maps.newMap();
 		this.methodToStorePropertyMap = Maps.newMap();
+		this.methodToIndexMap = Sets.newSet();
 	}
 
 	public void onLoad( Object object, T container ) {
@@ -95,5 +96,9 @@ public abstract class ReflectionTypeWrapper<T extends PropertyContainer> impleme
 
 	protected Map<String, Synchronizer<T>> getSynchronizers() {
 		return synchronizers;
+	}
+
+	protected Set<String> getMethodToIndexMap() {
+		return methodToIndexMap;
 	}
 }

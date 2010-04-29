@@ -2,16 +2,17 @@ package org.ogrm.config;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.ogrm.index.Indexer;
 import org.ogrm.internal.graph.memory.MemoryGraph;
-import org.ogrm.internal.graph.neo4j.Neo4jGraph;
+import org.ogrm.internal.indexer.babudb.BabuDbIndexService;
 import org.ogrm.internal.indexer.babudb.BabudbIndexProvider;
-import org.ogrm.internal.indexer.memory.MemoryIndexProvider;
+import org.ogrm.internal.indexer.memory.MemoryIndexService;
 
 public class ConfigurationBuilder {
 
 	private Configuration configuration;
 
-	public static ConfigurationBuilder createConfig() {
+	public static ConfigurationBuilder create() {
 		return new ConfigurationBuilder();
 	}
 
@@ -26,26 +27,32 @@ public class ConfigurationBuilder {
 
 	public ConfigurationBuilder neo4jGraph( String location ) {
 		GraphDatabaseService db = new EmbeddedGraphDatabase( location );
-		configuration.setGraph( new Neo4jGraph( db ) );
+		configuration.setGraph( db );
 		return this;
 	}
 
 	public ConfigurationBuilder memoryIndex() {
-		configuration.setIndexer( new MemoryIndexProvider( configuration ) );
+		configuration.setIndexService( new MemoryIndexService( configuration ) );
 		return this;
 	}
 
-	public ConfigurationBuilder diskIndex( String location ) {
-		configuration.setIndexer( BabudbIndexProvider.createIndex( configuration, location ) );
+	public ConfigurationBuilder babuDbIndex( String location ) {
+		configuration.setIndexService( new BabuDbIndexService( BabudbIndexProvider
+				.createIndex( configuration, location ) ) );
 		return this;
 	}
 
-	public ConfigurationBuilder overwriteDiskIndex( String location ) {
-		configuration.setIndexer( BabudbIndexProvider.createAndOverwriteIndex( configuration, location ) );
+	public ConfigurationBuilder overwriteBabuDBIndex( String location ) {
+		configuration.setIndexService( new BabuDbIndexService( BabudbIndexProvider.createAndOverwriteIndex(
+				configuration, location ) ) );
 		return this;
 	}
 
 	public Configuration get() {
+		
+		Indexer indexer = new Indexer( configuration.getIndexService() );
+		configuration.getGraph().registerTransactionEventHandler( indexer );
+		
 		return configuration;
 	}
 }

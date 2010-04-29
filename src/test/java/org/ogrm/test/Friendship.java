@@ -1,11 +1,27 @@
 package org.ogrm.test;
 
-public interface Friendship {
+import org.ogrm.annotations.From;
+import org.ogrm.annotations.Id;
+import org.ogrm.annotations.To;
 
-	public Object getId();
+public class Friendship {
 
-	public Person getSelf();
+	@Id private Object id;
+	
+	@From private Person self;
 
-	public Person getFriend();
+	@To private Person friend;
+
+	public Object getId() {
+		return id;
+	}
+	
+	public Person getSelf() {
+		return self;
+	}
+
+	public Person getFriend() {
+		return friend;
+	}
 
 }

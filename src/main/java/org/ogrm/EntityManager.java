@@ -3,6 +3,7 @@ package org.ogrm;
 import java.util.concurrent.locks.Lock;
 
 import org.neo4j.graphdb.Transaction;
+import org.ogrm.search.Find;
 
 public interface EntityManager {
 
@@ -16,7 +17,7 @@ public interface EntityManager {
 
 	public Lock getLock( Object entity);
 
-	public <T> Search<T> find( Class<T> type );
+	public <T> Find<T> find( Class<T> type );
 
 	public void dispose();
 }

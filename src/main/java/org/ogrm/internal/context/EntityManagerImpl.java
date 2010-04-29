@@ -2,31 +2,32 @@ package org.ogrm.internal.context;
 
 import java.util.concurrent.locks.Lock;
 
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.index.IndexService;
 import org.ogrm.EntityManager;
-import org.ogrm.Search;
 import org.ogrm.config.Configuration;
-import org.ogrm.index.IndexProvider;
-import org.ogrm.internal.graph.Graph;
+import org.ogrm.internal.search.FindType;
+import org.ogrm.search.Find;
 
 public class EntityManagerImpl implements EntityManager {
 
-	private Graph graph;
+	private GraphDatabaseService graph;
 
-	private IndexProvider indexProvider;
+	private IndexService indexService;
 
 	private PersistenceContext context;
 
 	public EntityManagerImpl(Configuration config) {
 		this.graph = config.getGraph();
-		this.indexProvider = config.getIndexer();
+		this.indexService = config.getIndexService();
 		context = new PersistenceContextImpl( config );
 	}
 
 	@Override
 	public Transaction beginTransaction() {
-		return graph.getAndBeginTx();
+		return graph.beginTx();
 	}
 
 	@Override
@@ -35,14 +36,13 @@ public class EntityManagerImpl implements EntityManager {
 	}
 
 	@Override
-	public <T> Search<T> find( Class<T> type ) {
-		// TODO Auto-generated method stub
-		return null;
+	public <T> Find<T> find( Class<T> type ) {
+		return new FindType<T>( type, indexService, context );
 	}
 
 	@Override
 	public <T> T get( Class<T> type, Object id ) {
-		Node node = graph.getNodeById( id );
+		Node node = graph.getNodeById( (Long) id );
 		if (node == null)
 			return null;
 		Object entity = context.getEntity( node );
@@ -57,8 +57,12 @@ public class EntityManagerImpl implements EntityManager {
 
 	@Override
 	public void dispose() {
-		graph.dispose();
-		indexProvider.dispose();
+		graph.shutdown();
+		indexService.shutdown();
+	}
+
+	public GraphDatabaseService getGraph() {
+		return graph;
 	}
 
 	@Override

@@ -10,8 +10,7 @@ import org.neo4j.graphdb.Relationship;
 import org.ogrm.TypedRelationBag;
 import org.ogrm.internal.context.PersistenceContext;
 import org.ogrm.internal.proxy.ContainerWrapper;
-
-import com.bsc.commons.collections.Lists;
+import org.ogrm.util.Lists;
 
 public class TypedManyBag<E> implements TypedRelationBag<E> {
 	private RelationManager helper;

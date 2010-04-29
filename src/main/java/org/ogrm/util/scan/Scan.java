@@ -1,8 +1,11 @@
-package org.ogrm.util;
+package org.ogrm.util.scan;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
+
+import org.ogrm.util.Lists;
+import org.ogrm.util.ReflectionHelper;
 
 public class Scan {
 

@@ -1,27 +1,20 @@
-package org.ogrm;
+package org.ogrm.test;
 
 import java.util.Collection;
 
-import org.ogrm.test.Friendship;
-import org.ogrm.test.Instant;
-import org.ogrm.test.LifeEvent;
-import org.ogrm.test.LifeEventImpl;
 import org.ogrm.test.OgrmTestSupport;
-import org.ogrm.test.Person;
-import org.ogrm.test.PersonImpl;
 import org.testng.annotations.Test;
-
 
 public class PersonTest extends OgrmTestSupport {
 
-	private String theNameOfTheStar = "Neo";
+	private String theNameOfNeo = "Neo";
 	private Object idOfTheStar = null;
 
 	@Test
 	public void createStar() {
-		Person neo = create( PersonImpl.class );
+		Person neo = create( Person.class );
 
-		neo.setName( theNameOfTheStar );
+		neo.setName( theNameOfNeo );
 
 		idOfTheStar = neo.getId();
 
@@ -29,7 +22,7 @@ public class PersonTest extends OgrmTestSupport {
 
 		neo = manager().get( Person.class, idOfTheStar );
 
-		assert neo.getName().equals( theNameOfTheStar );
+		assert neo.getName().equals( theNameOfNeo );
 	}
 
 	@Test(dependsOnMethods = { "createStar" })
@@ -63,17 +56,23 @@ public class PersonTest extends OgrmTestSupport {
 	@Test(dependsOnMethods = { "addEventsOfHisLife" })
 	public void addFriends() {
 		Person neo = manager().get( Person.class, idOfTheStar );
-		
-		Person trinity = create( PersonImpl.class );
+
+		Person trinity = create( Person.class );
 		trinity.setName( "Trinity" );
-		
+
 		Friendship friendshipWithTrinity = neo.createFriendshipTo( trinity );
-		
+
 		assert trinity.getPersonsThatAreFirendsWithMe().contains( friendshipWithTrinity );
-		
+
 		assert friendshipWithTrinity.getSelf().equals( neo );
-		
+
 		assert friendshipWithTrinity.getFriend().equals( trinity );
 	}
 
+	@Test(dependsOnMethods = { "addFriends" })
+	public void searchForPersons() {
+		Person neo = manager().find( Person.class ).where( Indexes.NAME ).is( theNameOfNeo ).first();
+
+		assert neo != null;
+	}
 }

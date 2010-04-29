@@ -9,8 +9,7 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.ogrm.internal.context.PersistenceContext;
-
-import com.bsc.commons.collections.Lists;
+import org.ogrm.util.Lists;
 
 public class FromManySet<E> implements Set<E> {
 

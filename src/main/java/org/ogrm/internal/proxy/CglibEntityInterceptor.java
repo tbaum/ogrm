@@ -1,25 +1,24 @@
 package org.ogrm.internal.proxy;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 import org.neo4j.graphdb.PropertyContainer;
 import org.ogrm.internal.wrap.TypeWrapper;
 
-public class PropertyContainerProxyHandler<T extends PropertyContainer> implements InvocationHandler {
-
+public class CglibEntityInterceptor<T extends PropertyContainer> implements MethodInterceptor {
 	private T propertyContainer;
 	private TypeWrapper<T> synchronizer;
-	private Object entity;
 
-	public PropertyContainerProxyHandler(T propertyContainer, TypeWrapper<T> synchronizer, Object entity) {
+	public CglibEntityInterceptor(T propertyContainer, TypeWrapper<T> synchronizer) {
 		this.propertyContainer = propertyContainer;
 		this.synchronizer = synchronizer;
-		this.entity = entity;
 	}
 
 	@Override
-	public Object invoke( Object proxy, Method method, Object[] args ) throws Throwable {
+	public Object intercept( Object object, Method method, Object[] args, MethodProxy methodProxy ) throws Throwable {
 
 		if (method.getName().equals( "getContainer" ))
 			return (T) propertyContainer;
@@ -29,16 +28,16 @@ public class PropertyContainerProxyHandler<T extends PropertyContainer> implemen
 
 		if (method.getName().equals( "equals" ) && args.length == 1) {
 			Object arg = args[0];
-			if (arg instanceof ContainerWrapper<?>) 
+			if (arg instanceof ContainerWrapper<?>)
 				return propertyContainer.equals( ((ContainerWrapper<?>) arg).getContainer() );
-			
+
 		}
 
-		synchronizer.beforeCall( entity, propertyContainer, method );
+		synchronizer.beforeCall( object, propertyContainer, method );
 
-		Object reply = method.invoke( entity, args );
+		Object reply = methodProxy.invokeSuper( object, args );
 
-		synchronizer.afterCall( entity, propertyContainer, method );
+		synchronizer.afterCall( object, propertyContainer, method );
 
 		return reply;
 	}

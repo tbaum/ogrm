@@ -8,9 +8,9 @@ import java.util.Map;
 
 import org.ogrm.annotations.Load;
 import org.ogrm.annotations.Store;
-import org.ogrm.util.MemberHandler;
+import org.ogrm.util.scan.AbstractHandler;
 
-public class LoadStoreHandler implements MemberHandler {
+public class LoadStoreHandler extends AbstractHandler {
 
 	private Map<String, Collection<String>> methodToLoadPropertyMap;
 	private Map<String, Collection<String>> methodToStorePropertyMap;

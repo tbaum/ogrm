@@ -7,9 +7,9 @@ import java.util.Map;
 import org.neo4j.graphdb.Node;
 import org.ogrm.annotations.Id;
 import org.ogrm.internal.proxy.FieldProperty;
-import org.ogrm.util.MemberHandler;
+import org.ogrm.util.scan.AbstractHandler;
 
-public class IdHandler implements MemberHandler {
+public class IdHandler extends AbstractHandler {
 
 	private Map<String, Synchronizer<Node>> synchronizers;
 

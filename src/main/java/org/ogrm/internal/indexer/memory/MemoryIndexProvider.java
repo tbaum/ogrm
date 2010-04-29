@@ -3,12 +3,9 @@ package org.ogrm.internal.indexer.memory;
 import java.util.Map;
 
 import org.ogrm.config.Configuration;
-import org.ogrm.index.Index;
-import org.ogrm.index.IndexProvider;
+import org.ogrm.util.Maps;
 
-import com.bsc.commons.collections.Maps;
-
-public class MemoryIndexProvider implements IndexProvider {
+public class MemoryIndexProvider {
 
 	private Map<String, MemoryIndex> indexes;
 	private Configuration config;
@@ -18,8 +15,7 @@ public class MemoryIndexProvider implements IndexProvider {
 		indexes = Maps.newMap();
 	}
 
-	@Override
-	public Index getIndex( String name ) {
+	public MemoryIndex getIndex( String name ) {
 		MemoryIndex index = indexes.get( name );
 		if (index == null) {
 			synchronized (indexes) {
@@ -32,7 +28,6 @@ public class MemoryIndexProvider implements IndexProvider {
 		return index;
 	}
 
-	@Override
 	public void dispose() {
 		
 	}

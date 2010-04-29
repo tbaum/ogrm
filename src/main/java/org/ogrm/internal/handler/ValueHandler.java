@@ -17,11 +17,11 @@ import org.ogrm.internal.converter.ValueConverter;
 import org.ogrm.internal.proxy.FieldProperty;
 import org.ogrm.internal.proxy.MethodProperty;
 import org.ogrm.internal.proxy.Property;
-import org.ogrm.util.MemberHandler;
 import org.ogrm.util.ReflectionHelper;
 import org.ogrm.util.TypeHelper;
+import org.ogrm.util.scan.AbstractHandler;
 
-public class ValueHandler<T extends PropertyContainer> implements MemberHandler {
+public class ValueHandler<T extends PropertyContainer> extends AbstractHandler {
 
 	private Map<String, Synchronizer<T>> synchronizers;
 
@@ -50,6 +50,8 @@ public class ValueHandler<T extends PropertyContainer> implements MemberHandler 
 	private void doHandle( Property property ) {
 		Class<?> converterClass = property.getAnnotation( Value.class ).converter();
 
+		String indexName = property.getAnnotation( Value.class ).index();
+
 		if (converterClass.equals( PrimitiveConverter.class )) {
 
 			if (TypeHelper.isPrimitive( property.getType() ) || TypeHelper.isPrimitiveArray( property.getType() ))
@@ -62,6 +64,6 @@ public class ValueHandler<T extends PropertyContainer> implements MemberHandler 
 
 		ValueConverter converter = (ValueConverter) ReflectionHelper.newInstance( converterClass );
 
-		synchronizers.put( property.getName(), new PropertySynchronizer<T>( property, converter ) );
+		synchronizers.put( property.getName(), new PropertySynchronizer<T>( property, converter, indexName ) );
 	}
 }

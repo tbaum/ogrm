@@ -7,7 +7,7 @@ import org.ogrm.internal.context.PersistenceContext;
 import org.ogrm.internal.handler.LoadStoreHandler;
 import org.ogrm.internal.handler.Synchronizer;
 import org.ogrm.internal.handler.ToFromHandler;
-import org.ogrm.util.Scan;
+import org.ogrm.util.scan.Scan;
 
 public class RelationshipTypeWrapper extends ReflectionTypeWrapper<Relationship> {
 	private PersistenceContext context;

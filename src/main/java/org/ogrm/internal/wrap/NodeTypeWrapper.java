@@ -9,8 +9,7 @@ import org.ogrm.internal.handler.LoadStoreHandler;
 import org.ogrm.internal.handler.RelationHandler;
 import org.ogrm.internal.handler.Synchronizer;
 import org.ogrm.internal.handler.ValueHandler;
-import org.ogrm.util.Scan;
-
+import org.ogrm.util.scan.Scan;
 
 public class NodeTypeWrapper extends ReflectionTypeWrapper<Node> {
 

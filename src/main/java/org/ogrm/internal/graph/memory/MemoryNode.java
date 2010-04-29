@@ -12,8 +12,7 @@ import org.neo4j.graphdb.ReturnableEvaluator;
 import org.neo4j.graphdb.StopEvaluator;
 import org.neo4j.graphdb.Traverser;
 import org.neo4j.graphdb.Traverser.Order;
-
-import com.bsc.commons.string.StringAppender;
+import org.ogrm.util.StringAppender;
 
 public class MemoryNode extends PropertyHolderSupport implements Node {
 
@@ -23,7 +22,7 @@ public class MemoryNode extends PropertyHolderSupport implements Node {
 	private TreeSet<MemoryRelationship> incoming;
 
 	public MemoryNode(Long id, MemoryGraph graph) {
-		super();
+		super(graph);
 		this.id = id;
 		this.graph = graph;
 		this.incoming = new TreeSet<MemoryRelationship>();
@@ -183,26 +182,6 @@ public class MemoryNode extends PropertyHolderSupport implements Node {
 		return false;
 	}
 
-	@Override
-	public Traverser traverse( Order arg0, StopEvaluator arg1, ReturnableEvaluator arg2, Object... arg3 ) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Traverser traverse( Order arg0, StopEvaluator arg1, ReturnableEvaluator arg2, RelationshipType arg3,
-			Direction arg4 ) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Traverser traverse( Order arg0, StopEvaluator arg1, ReturnableEvaluator arg2, RelationshipType arg3,
-			Direction arg4, RelationshipType arg5, Direction arg6 ) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void removeRelationship( MemoryRelationship rel ) {
 		incoming.remove( rel );
 		outgoing.remove( rel );
@@ -234,6 +213,26 @@ public class MemoryNode extends PropertyHolderSupport implements Node {
 			}
 		}.build();
 
+	}
+
+	@Override
+	public Traverser traverse( Order arg0, StopEvaluator arg1, ReturnableEvaluator arg2, Object... arg3 ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Traverser traverse( Order arg0, StopEvaluator arg1, ReturnableEvaluator arg2, RelationshipType arg3,
+			Direction arg4 ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Traverser traverse( Order arg0, StopEvaluator arg1, ReturnableEvaluator arg2, RelationshipType arg3,
+			Direction arg4, RelationshipType arg5, Direction arg6 ) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

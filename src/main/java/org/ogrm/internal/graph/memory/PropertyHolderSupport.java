@@ -2,14 +2,17 @@ package org.ogrm.internal.graph.memory;
 
 import java.util.TreeMap;
 
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.PropertyContainer;
 
 public class PropertyHolderSupport implements PropertyContainer {
 
 	private TreeMap<String, Object> properties;
-
-	public PropertyHolderSupport() {
+	private GraphDatabaseService graph;
+	
+	public PropertyHolderSupport(GraphDatabaseService graphDb) {
 		properties = new TreeMap<String, Object>();
+		this.graph = graphDb;
 	}
 
 	@Override
@@ -51,5 +54,10 @@ public class PropertyHolderSupport implements PropertyContainer {
 	
 	public TreeMap<String, Object> getProperties() {
 		return properties;
+	}
+
+	@Override
+	public GraphDatabaseService getGraphDatabase() {
+		return graph;
 	}
 }

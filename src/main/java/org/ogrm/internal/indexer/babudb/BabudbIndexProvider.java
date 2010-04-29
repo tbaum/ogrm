@@ -13,10 +13,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.ogrm.PersistenceException;
 import org.ogrm.config.Configuration;
-import org.ogrm.index.Index;
-import org.ogrm.index.IndexProvider;
 import org.ogrm.logger.Logger;
 import org.ogrm.logger.LoggerFactory;
+import org.ogrm.util.Maps;
 import org.xtreemfs.babudb.BabuDB;
 import org.xtreemfs.babudb.BabuDBException;
 import org.xtreemfs.babudb.BabuDBFactory;
@@ -26,9 +25,7 @@ import org.xtreemfs.babudb.log.DiskLogger.SyncMode;
 import org.xtreemfs.babudb.lsmdb.Database;
 import org.xtreemfs.babudb.lsmdb.DatabaseManager;
 
-import com.bsc.commons.collections.Maps;
-
-public class BabudbIndexProvider implements IndexProvider {
+public class BabudbIndexProvider {
 
 	private static Logger logger = LoggerFactory.getLogger( BabudbIndexProvider.class );
 
@@ -46,11 +43,11 @@ public class BabudbIndexProvider implements IndexProvider {
 
 	private Configuration config;
 
-	public static IndexProvider createIndex( Configuration config, String directory ) {
+	public static BabudbIndexProvider createIndex( Configuration config, String directory ) {
 		return new BabudbIndexProvider( directory, config, false );
 	}
 
-	public static IndexProvider createAndOverwriteIndex( Configuration config, String directory ) {
+	public static BabudbIndexProvider createAndOverwriteIndex( Configuration config, String directory ) {
 		return new BabudbIndexProvider( directory, config, true );
 	}
 
@@ -63,8 +60,7 @@ public class BabudbIndexProvider implements IndexProvider {
 		checkFile( baseDir );
 	}
 
-	@Override
-	public Index getIndex( String name ) {
+	public BabuDbIndex getIndex( String name ) {
 		BabuDbIndex index = indexes.get( name );
 		if (index == null) {
 			synchronized (indexes) {
@@ -92,7 +88,7 @@ public class BabudbIndexProvider implements IndexProvider {
 		try {
 
 			if (babudb == null) {
-				makeLockFile();
+//				makeLockFile();
 
 				int numOfWorkerThreads = 2;
 
@@ -111,7 +107,7 @@ public class BabudbIndexProvider implements IndexProvider {
 				int maxBlockSize = 536870912;
 
 				babudb = BabuDBFactory.createBabuDB( new BabuDBConfig( db.getAbsolutePath(), log.getAbsolutePath(),
-						numOfWorkerThreads, maxLogFileSize, checkIntervalInSecs, SyncMode.ASYNC,
+						numOfWorkerThreads, maxLogFileSize, checkIntervalInSecs, SyncMode.FSYNC,
 						pseudoSyncWaitInMillis, maxQueueSize, useCompression, maxEntriesPerBlock, maxBlockSize ) );
 
 				manager = babudb.getDatabaseManager();
@@ -123,10 +119,12 @@ public class BabudbIndexProvider implements IndexProvider {
 				if (e.getErrorCode().equals( ErrorCode.DB_EXISTS )) {
 					logger.info( "Database for %s is present at %s", name, baseDir.getAbsolutePath() );
 					database = manager.getDatabase( name );
-				} else
+				} else {
 					throw e;
+				}
 			}
 		} catch (Throwable e) {
+			logger.error( e, "Error while creating db" );
 			throw new PersistenceException( "Could not create database at " + baseDir.getAbsolutePath() + " for "
 					+ name, e );
 		}

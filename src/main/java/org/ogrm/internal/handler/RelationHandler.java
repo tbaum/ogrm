@@ -13,9 +13,9 @@ import org.ogrm.annotations.ToMany;
 import org.ogrm.annotations.ToOne;
 import org.ogrm.internal.context.PersistenceContext;
 import org.ogrm.internal.proxy.FieldProperty;
-import org.ogrm.util.MemberHandler;
+import org.ogrm.util.scan.AbstractHandler;
 
-public class RelationHandler implements MemberHandler {
+public class RelationHandler extends AbstractHandler{
 
 	private Map<String, Synchronizer<Node>> synchronizers;
 
