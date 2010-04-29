@@ -19,19 +19,6 @@ public class Indexer implements TransactionEventHandler<Object> {
 	@Override
 	public void afterCommit( TransactionData data, Object context ) {
 
-	
-
-	}
-
-	@Override
-	public void afterRollback( TransactionData data, Object node ) {
-		System.out.println( "Indexer.afterRollback " );
-	}
-
-	@Override
-	public Object beforeCommit( TransactionData data ) throws Exception {
-		
-		//TODO, this must be in the afterCommt method, but is here due to a bug in neo4j. Move up when bug is fixed
 		for (PropertyEntry<Node> entry : data.assignedNodeProperties()) {
 			String key = entry.key();
 
@@ -47,6 +34,17 @@ public class Indexer implements TransactionEventHandler<Object> {
 			}
 
 		}
+
+	}
+
+	@Override
+	public void afterRollback( TransactionData data, Object node ) {
+		System.out.println( "Indexer.afterRollback " );
+	}
+
+	@Override
+	public Object beforeCommit( TransactionData data ) throws Exception {
+		
 		return new Object();
 	}
 
