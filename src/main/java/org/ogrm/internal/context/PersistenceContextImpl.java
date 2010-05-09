@@ -1,6 +1,5 @@
 package org.ogrm.internal.context;
 
-import java.util.List;
 import java.util.Map;
 
 import org.neo4j.graphdb.Node;
@@ -13,16 +12,13 @@ import org.ogrm.internal.proxy.ProxyFactory;
 import org.ogrm.internal.wrap.NodeTypeWrapper;
 import org.ogrm.internal.wrap.RelationshipTypeWrapper;
 import org.ogrm.internal.wrap.TypeWrapper;
-import org.ogrm.util.Lists;
 import org.ogrm.util.Maps;
-import org.ogrm.util.ReflectionHelper;
 import org.ogrm.util.Transformer;
 
 public class PersistenceContextImpl implements PersistenceContext {
 
 	private static final String PROPERTYNAME_TYPE = "_class";
 
-	private Map<String, List<Class<?>>> interfacesCache;
 	private Map<String, Class<?>> classCache;
 	private Map<String, TypeWrapper<Node>> nodeWrapperCache;
 	private Map<String, TypeWrapper<Relationship>> relWrapperCache;
@@ -33,8 +29,6 @@ public class PersistenceContextImpl implements PersistenceContext {
 		this.config = configuration;
 
 		classCache = createClassCache( config );
-
-		interfacesCache = createInterfacesCache( classCache );
 
 		nodeWrapperCache = createNodeWrapperCache( classCache );
 
@@ -91,18 +85,6 @@ public class PersistenceContextImpl implements PersistenceContext {
 			@Override
 			public Class<?> transform( String input ) {
 				return conf.getResourceLoader().classForName( input );
-			}
-		} );
-	}
-
-	private Map<String, List<Class<?>>> createInterfacesCache( final Map<String, Class<?>> classCache ) {
-		return Maps.asLazy( Maps.<String, List<Class<?>>> newMap(), new Transformer<String, List<Class<?>>>() {
-
-			@Override
-			public List<Class<?>> transform( String input ) {
-				List<Class<?>> list = Lists.newList( ReflectionHelper.getInterfacesFor( classCache.get( input ) ) );
-				list.add( ContainerWrapper.class );
-				return list;
 			}
 		} );
 	}
