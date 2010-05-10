@@ -2,7 +2,6 @@ package org.ogrm.util;
 
 import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
-import java.util.Arrays;
 
 public class ByteHelper {
 

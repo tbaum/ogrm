@@ -9,6 +9,7 @@ public class BabuDbIndexService implements IndexService {
 
 	private BabudbIndexProvider indexProvider;
 
+	@SuppressWarnings("unused") //Not removed for future neo4j API compliance 
 	private Isolation isolation;
 
 	public BabuDbIndexService(BabudbIndexProvider indexProvider) {

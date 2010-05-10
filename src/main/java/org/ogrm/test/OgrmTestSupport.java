@@ -1,14 +1,11 @@
 package org.ogrm.test;
 
-import java.util.List;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.ogrm.EntityManager;
 import org.ogrm.config.ConfigurationBuilder;
 import org.ogrm.internal.context.EntityManagerImpl;
-import org.ogrm.util.Lists;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;

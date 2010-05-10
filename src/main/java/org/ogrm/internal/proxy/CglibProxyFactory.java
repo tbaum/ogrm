@@ -1,8 +1,5 @@
 package org.ogrm.internal.proxy;
 
-import java.util.List;
-import java.util.Map;
-
 import net.sf.cglib.proxy.Enhancer;
 
 import org.neo4j.graphdb.PropertyContainer;
