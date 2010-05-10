@@ -109,16 +109,4 @@ public class BabuDbIndex {
 		}
 	}
 
-	private byte[] toIndexKey( String key, long id ) {
-		byte[] keyBytes = key.getBytes();
-		byte[] idBytes = ByteHelper.makeByteFromLong( id );
-
-		byte[] indeKeyBytes = new byte[keyBytes.length + idBytes.length];
-
-		System.arraycopy( keyBytes, 0, indeKeyBytes, 0, keyBytes.length );
-		System.arraycopy( idBytes, 0, indeKeyBytes, keyBytes.length, idBytes.length );
-
-		return indeKeyBytes;
-	}
-
 }

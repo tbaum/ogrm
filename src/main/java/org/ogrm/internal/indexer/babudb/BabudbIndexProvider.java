@@ -1,12 +1,6 @@
 package org.ogrm.internal.indexer.babudb;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -151,49 +145,6 @@ public class BabudbIndexProvider {
 		File lockFile = new File( baseDir, LOCKFILE );
 		System.out.println( "BabuDbStore.clearLockFile Deleting lockfile" );
 		lockFile.delete();
-	}
-
-	private void makeLockFile() {
-		logger.debug( "%s checking lockfile", this );
-		File baseDir = new File( directory );
-		File lockFile = new File( baseDir, LOCKFILE );
-		try {
-			if (!lockFile.createNewFile()) {
-				String info = readInfoInLockfile( lockFile );
-				throw new PersistenceException( this + ": the database is in use by another process ( " + info
-						+ " ) . If this is incorrect, delete the lockfile " + lockFile.getCanonicalPath() );
-			} else {
-				writeInfoToLockFile( lockFile );
-			}
-		} catch (IOException e) {
-			throw new PersistenceException( "Could not create lockfile " + lockFile.getPath(), e );
-		}
-	}
-
-	private void writeInfoToLockFile( File file ) {
-		try {
-			FileWriter outFile = new FileWriter( file );
-			PrintWriter out = new PrintWriter( outFile );
-
-			// Also could be written as follows on one line
-			// Printwriter out = new PrintWriter(new FileWriter(args[0]));
-
-			// Write text to file
-			out.println( "Created " + new Date().toString() + " by " + this.toString() );
-			out.close();
-		} catch (IOException e) {
-			logger.warn( "Could not write info into lockfile" );
-		}
-	}
-
-	private String readInfoInLockfile( File file ) {
-		try {
-			BufferedReader reader = new BufferedReader( new FileReader( file ) );
-			return reader.readLine();
-		} catch (IOException e) {
-			logger.warn( "Could not write info into lockfile" );
-		}
-		return "";
 	}
 
 	private void deleteRecursive( File file ) {
